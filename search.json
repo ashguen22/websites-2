@@ -1,0 +1,16 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Billboard Graphic",
+    "section": "",
+    "text": "Each line follows one of the six longest-charting songs that reached the top 10; rank 1 is the best position.\n\ndata(\"billboard\", package = \"tidyr\")\n\nbillboard_long &lt;- billboard |&gt;\n  pivot_longer(\n    wk1:wk76,\n    names_to = \"week\",\n    names_prefix = \"wk\",\n    names_transform = list(week = as.integer),\n    values_to = \"rank\"\n  ) |&gt;\n  filter(!is.na(rank))\n\ntop_songs &lt;- billboard_long |&gt;\n  group_by(artist, track) |&gt;\n  summarise(\n    weeks_on_chart = n(),\n    best_rank = min(rank),\n    .groups = \"drop\"\n  ) |&gt;\n  filter(best_rank &lt;= 10) |&gt;\n  slice_max(weeks_on_chart, n = 6, with_ties = FALSE)\n\nbillboard_long |&gt;\n  semi_join(top_songs, by = c(\"artist\", \"track\")) |&gt;\n  mutate(song = paste(track, artist, sep = \" — \")) |&gt;\n  ggplot(aes(week, rank, color = song, group = song)) +\n  geom_line(linewidth = 1.2, alpha = 0.9) +\n  scale_color_viridis_d(option = \"turbo\", end = 0.9) +\n  scale_x_continuous(breaks = seq(1, 76, by = 10)) +\n  scale_y_reverse(breaks = c(1, 10, 20, 40, 60, 80, 100)) +\n  labs(\n    title = \"The songs that stayed on the chart\",\n    subtitle = \"Six longest-charting hits from 2000 that reached the top 10\",\n    x = \"Week on the chart\",\n    y = \"Billboard rank\",\n    color = NULL\n  ) +\n  guides(color = guide_legend(ncol = 2, byrow = TRUE)) +\n  theme_minimal(base_size = 13) +\n  theme(\n    panel.grid.minor = element_blank(),\n    legend.position = \"bottom\",\n    plot.title = element_text(face = \"bold\")\n  )"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  }
+]
