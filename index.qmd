@@ -1,0 +1,60 @@
+---
+title: "Billboard Graphic"
+---
+
+```{r}
+#| message: false
+#| echo: false
+library(tidyverse)
+```
+
+Each line follows one of the six longest-charting songs that reached the top 10; rank 1 is the best position.
+
+```{r}
+#| fig-width: 10
+#| fig-height: 7
+data("billboard", package = "tidyr")
+
+billboard_long <- billboard |>
+  pivot_longer(
+    wk1:wk76,
+    names_to = "week",
+    names_prefix = "wk",
+    names_transform = list(week = as.integer),
+    values_to = "rank"
+  ) |>
+  filter(!is.na(rank))
+
+top_songs <- billboard_long |>
+  group_by(artist, track) |>
+  summarise(
+    weeks_on_chart = n(),
+    best_rank = min(rank),
+    .groups = "drop"
+  ) |>
+  filter(best_rank <= 10) |>
+  slice_max(weeks_on_chart, n = 6, with_ties = FALSE)
+
+billboard_long |>
+  semi_join(top_songs, by = c("artist", "track")) |>
+  mutate(song = paste(track, artist, sep = " — ")) |>
+  ggplot(aes(week, rank, color = song, group = song)) +
+  geom_line(linewidth = 1.2, alpha = 0.9) +
+  scale_color_viridis_d(option = "turbo", end = 0.9) +
+  scale_x_continuous(breaks = seq(1, 76, by = 10)) +
+  scale_y_reverse(breaks = c(1, 10, 20, 40, 60, 80, 100)) +
+  labs(
+    title = "The songs that stayed on the chart",
+    subtitle = "Six longest-charting hits from 2000 that reached the top 10",
+    x = "Week on the chart",
+    y = "Billboard rank",
+    color = NULL
+  ) +
+  guides(color = guide_legend(ncol = 2, byrow = TRUE)) +
+  theme_minimal(base_size = 13) +
+  theme(
+    panel.grid.minor = element_blank(),
+    legend.position = "bottom",
+    plot.title = element_text(face = "bold")
+  )
+```
