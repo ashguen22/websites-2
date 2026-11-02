@@ -2,4 +2,7 @@
 title: "About"
 ---
 
-About this site
+## About me
+My name is **Ashlan Guengerich**, I go to *New College of Florida* and I play softball. 
+
+[Kane’s Free Data Science Bootcamp](https://bootcamp.davidkane.info)
