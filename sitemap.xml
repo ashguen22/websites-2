@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://ashguen22.github.io/websites-2/source-1.html</loc>
+    <lastmod>2026-11-02T21:29:39.471Z</lastmod>
+  </url>
+  <url>
     <loc>https://ashguen22.github.io/websites-2/index.html</loc>
     <lastmod>2026-11-02T21:05:57.890Z</lastmod>
   </url>
   <url>
     <loc>https://ashguen22.github.io/websites-2/about.html</loc>
     <lastmod>2026-11-02T21:15:18.533Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ashguen22.github.io/websites-2/source-2.html</loc>
+    <lastmod>2026-11-02T21:29:40.990Z</lastmod>
   </url>
 </urlset>
